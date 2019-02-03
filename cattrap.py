@@ -20,7 +20,7 @@ if __name__ == '__main__':
         run = check_curfew()
 
         while run:
-            print('Distance: ', sensor.distance * 100)
+            print('distance: ', sensor.distance * 100)
         
             if sensor.distance <= 0.5:
                 print('i see you')
@@ -29,3 +29,4 @@ if __name__ == '__main__':
             sleep(0.25)
             run = check_curfew()
 
+        time.sleep(1)
