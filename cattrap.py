@@ -4,8 +4,6 @@ from time import sleep
 from datetime import datetime
 from gpiozero import DistanceSensor
 
-sensor = DistanceSensor(echo=4, trigger=5)
-
 
 def check_curfew(start=21, stop=9):
     now = datetime.now()
@@ -16,11 +14,13 @@ def check_curfew(start=21, stop=9):
 
 
 if __name__ == '__main__':
+    sensor = DistanceSensor(echo=4, trigger=5)
+
     while True:
         run = check_curfew()
 
         while run:
-            print('distance: ', sensor.distance * 100)
+            print('distance: {}'.format(sensor.distance))
         
             if sensor.distance <= 0.5:
                 print('i see you')
