@@ -2,6 +2,7 @@
 
 from time import sleep
 from datetime import datetime
+from collections import deque
 from gpiozero import DistanceSensor
 
 
@@ -11,6 +12,18 @@ def check_curfew(start=21, stop=9):
         return True
     else:
         return False
+
+
+def roll():
+    vals = deque()
+    while True:
+        val = yield
+        if len(vals) < 10:
+            vals.append(val)
+        if len(vals) == 10:
+            vals.popleft()
+            vals.append(val)
+        yield sum(vals) / len(vals)
 
 
 if __name__ == '__main__':
