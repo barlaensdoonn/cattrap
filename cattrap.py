@@ -14,13 +14,13 @@ def check_curfew(start=21, stop=9):
         return False
 
 
-def roll():
+def roll(window=10):
     vals = deque()
     while True:
         val = yield
-        if len(vals) < 10:
+        if len(vals) < window:
             vals.append(val)
-        if len(vals) == 10:
+        if len(vals) == window:
             vals.popleft()
             vals.append(val)
         yield sum(vals) / len(vals)
@@ -31,11 +31,14 @@ if __name__ == '__main__':
 
     while True:
         run = check_curfew()
+        avg = roll()
 
         while run:
-            print('distance: {}'.format(sensor.distance))
+            next(avg)
+            distance = avg.send(sensor.distance)
+            print('distance: {}'.format(distance))
         
-            if sensor.distance <= 0.5:
+            if distance <= 0.5:
                 print('i see you')
                 # spray the cat
         
